@@ -41,7 +41,7 @@ const Hero = () => {
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Button asChild size="lg" className="text-base">
-              <Link to="/onboarding">Start calm pre-screen</Link>
+              <Link to="/login">Start calm pre-screen</Link>
             </Button>
             <Link
               to="/about"

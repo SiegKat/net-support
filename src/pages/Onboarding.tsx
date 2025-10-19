@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { Users, GraduationCap, User, Stethoscope, Check, ArrowRight, BarChart3 } from "lucide-react";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
+import { isAuthenticated } from "@/lib/auth";
 
 const roles = [
   {
@@ -52,6 +53,12 @@ const Onboarding = () => {
     adult: false,
   });
   const [retainData, setRetainData] = useState(false);
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/login", { replace: true, state: { from: "/onboarding" } });
+    }
+  }, [navigate]);
 
   const allConsentsChecked = consents.privacy && consents.nonDiagnostic && consents.adult;
 

@@ -20,7 +20,6 @@ const Navbar = () => {
 
   const themeOptions: ReadonlyArray<{ label: string; value: ThemeName }> = [
     { label: "Calm teal", value: "calm" },
-    { label: "Soft plum", value: "plum" },
     { label: "Midnight sand", value: "midnight" },
   ];
 
@@ -77,7 +76,7 @@ const Navbar = () => {
             </label>
           </div>
           <Button asChild size="lg" className="shadow-[var(--shadow-card)]">
-            <Link to="/onboarding">Start Pre-Screen</Link>
+            <Link to="/login">Start Pre-Screen</Link>
           </Button>
         </div>
 
@@ -130,7 +129,7 @@ const Navbar = () => {
               </div>
             </div>
             <Button asChild className="w-full" size="lg">
-              <Link to="/onboarding" onClick={() => setIsOpen(false)}>
+              <Link to="/login" onClick={() => setIsOpen(false)}>
                 Start Pre-Screen
               </Link>
             </Button>

@@ -29,7 +29,7 @@
       (function () {
         try {
           var storedTheme = window.localStorage.getItem("net-theme");
-          var theme = storedTheme === "plum" || storedTheme === "midnight" ? storedTheme : "calm";
+          var theme = storedTheme === "midnight" ? storedTheme : "calm";
           document.documentElement.dataset.theme = theme;
 
           var dyslexia = window.localStorage.getItem("net-dyslexia");
