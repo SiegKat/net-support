@@ -14,7 +14,7 @@ const Footer = () => {
               </div>
               <div>
                 <p className="text-lg font-semibold text-[color:var(--color-ink)]">N.E.T.</p>
-                <p className="text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">Neurodiverse pre-screen</p>
+                <p className="text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">NeuroEducationalTesting</p>
               </div>
             </div>
             <p className="text-sm leading-relaxed text-muted-foreground">

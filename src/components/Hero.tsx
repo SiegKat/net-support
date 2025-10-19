@@ -9,6 +9,12 @@ const trustChips = [
   { label: "Not medical advice", icon: Info },
 ];
 
+const highlightStats = [
+  { label: "Average time", value: "12 min" },
+  { label: "Reading modes", value: "3 options" },
+  { label: "Roles supported", value: "4 profiles" },
+];
+
 const Hero = () => {
   const navigate = useNavigate();
 
@@ -28,7 +34,7 @@ const Hero = () => {
   return (
     <section className="relative isolate overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(25,154,142,0.22),_transparent_55%),radial-gradient(circle_at_bottom_right,_rgba(59,76,202,0.18),_transparent_60%)]" />
-      <div className="relative mx-auto flex max-w-7xl flex-col gap-14 px-4 py-20 sm:px-6 sm:py-24 md:px-8 lg:flex-row lg:items-center lg:gap-20 lg:py-28">
+      <div className="relative mx-auto flex max-w-7xl flex-col gap-12 px-4 pb-20 pt-16 sm:px-6 sm:pb-24 sm:pt-20 md:px-8 lg:flex-row lg:items-center lg:gap-20 lg:pb-28 lg:pt-28">
         <div className="max-w-2xl space-y-10">
           <div className="inline-flex items-center gap-2 self-start rounded-full border border-[color:var(--color-border)] bg-[color:var(--color-card)]/80 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-muted-foreground shadow-[var(--shadow-card)]">
             Calm, modern pre-screen
@@ -80,6 +86,18 @@ const Hero = () => {
               See how N.E.T. supports teams <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
+
+          <dl className="grid w-full gap-3 sm:hidden" aria-label="Helpful quick facts about the assessment">
+            {highlightStats.map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center justify-between rounded-[14px] border border-[color:var(--color-border)] bg-[color:var(--color-card)]/80 px-4 py-3 text-sm shadow-sm"
+              >
+                <dt className="font-medium text-muted-foreground">{item.label}</dt>
+                <dd className="font-semibold text-[color:var(--color-ink)]">{item.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         <aside className="relative w-full max-w-md rounded-[24px] border border-[color:var(--color-border)] bg-[color:var(--color-card)]/90 p-6 shadow-[var(--shadow-card)] backdrop-blur sm:p-8">
