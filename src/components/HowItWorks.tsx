@@ -33,10 +33,10 @@ const steps = [
 const HowItWorks = () => {
   return (
     <section className="py-24">
-      <div className="max-w-6xl mx-auto px-6 md:px-8">
-        <div className="mx-auto mb-16 max-w-3xl text-center">
-          <h2 className="text-3xl md:text-4xl font-semibold text-foreground">How N.E.T. feels in practice</h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+      <div className="mx-auto max-w-7xl px-6 md:px-8">
+        <div className="mx-auto mb-14 max-w-3xl text-center text-balance">
+          <h2 className="text-3xl font-semibold text-[color:var(--color-ink)] md:text-4xl">How N.E.T. feels in practice</h2>
+          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
             Designed for cognitive ease: calm pacing, predictable steps, and friendly microcopy that keeps everyone oriented.
           </p>
         </div>
@@ -44,11 +44,11 @@ const HowItWorks = () => {
           {steps.map((step) => (
             <article
               key={step.title}
-              className="flex flex-col gap-6 rounded-[12px] border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-transform duration-200 hover:-translate-y-1"
+              className="flex flex-col gap-6 rounded-[16px] border border-[color:var(--color-border)] bg-[color:var(--color-card)]/90 p-6 shadow-[var(--shadow-card)] transition-transform duration-200 ease-out hover:-translate-y-1"
             >
               {step.illustration}
               <div className="space-y-3">
-                <h3 className="text-xl font-semibold text-card-foreground">{step.title}</h3>
+                <h3 className="text-xl font-semibold text-[color:var(--color-ink)]">{step.title}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{step.description}</p>
               </div>
             </article>

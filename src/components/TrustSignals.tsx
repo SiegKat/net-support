@@ -21,21 +21,16 @@ const signals = [
 const TrustSignals = () => {
   return (
     <section className="py-14">
-      <div className="max-w-5xl mx-auto px-6 md:px-8">
-        <div className="grid gap-4 md:grid-cols-3">
+      <div className="mx-auto max-w-7xl px-6 md:px-8">
+        <div className="grid gap-4 rounded-[20px] border border-[color:var(--color-border)] bg-[color:var(--color-card)]/75 p-6 shadow-[var(--shadow-card)] md:grid-cols-3">
           {signals.map((signal) => (
-            <div
-              key={signal.title}
-              className="flex flex-col gap-3 rounded-[12px] border border-border bg-white/80 p-5 shadow-[var(--shadow-card)]"
-            >
-              <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/15 text-primary">
+            <div key={signal.title} className="flex flex-col gap-3 rounded-[16px] bg-[color:var(--color-bg)]/60 p-5">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-primary)]/15 text-[var(--color-primary)]">
                 <signal.icon className="h-5 w-5" aria-hidden="true" />
               </div>
-              <div className="space-y-1">
-                <p className="text-sm font-semibold uppercase tracking-wide text-muted-foreground/90">
-                  {signal.title}
-                </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">{signal.description}</p>
+              <div className="space-y-2">
+                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted-foreground">{signal.title}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{signal.description}</p>
               </div>
             </div>
           ))}

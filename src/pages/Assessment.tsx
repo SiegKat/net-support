@@ -6,7 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Clock, ShieldAlert, Volume2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { Clock, ShieldAlert, Volume2, BookOpen } from "lucide-react";
 
 interface Message {
   id: string;
@@ -95,15 +97,15 @@ const Assessment = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <main className="flex-1 py-12">
-        <div className="mx-auto grid max-w-7xl gap-8 px-6 md:px-8 lg:grid-cols-[minmax(0,_1fr)_320px]">
-          <section className="flex flex-col rounded-[16px] border border-border bg-card shadow-[var(--shadow-card)]">
-            <header className="flex flex-col gap-4 border-b border-border/80 px-6 py-5 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 md:px-8 lg:grid-cols-[minmax(0,_1fr)_320px]">
+          <section className="flex flex-col rounded-[20px] border border-[color:var(--color-border)] bg-[color:var(--color-card)]/95 shadow-[var(--shadow-card)]">
+            <header className="flex flex-col gap-4 border-b border-[color:var(--color-border)]/80 px-6 py-6 md:flex-row md:items-center md:justify-between">
               <div className="space-y-1">
-                <p className="text-sm font-semibold text-muted-foreground">Calm conversational pre-screen</p>
-                <p className="text-lg text-foreground">We’ll guide you one question at a time.</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground">Calm conversational pre-screen</p>
+                <p className="text-lg text-[color:var(--color-ink)]">We’ll guide you one question at a time.</p>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 rounded-full border border-border px-3 py-2 text-sm text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="flex items-center gap-2 rounded-full border border-[color:var(--color-border)] px-3 py-2 text-sm text-muted-foreground">
                   <Volume2 className="h-4 w-4" aria-hidden="true" />
                   Read-aloud ready
                 </div>
@@ -120,7 +122,7 @@ const Assessment = () => {
               {messages.map((message) => (
                 <div key={message.id} className="flex flex-col gap-1">
                   <div
-                    className={`max-w-[min(100%,_36rem)] rounded-[18px] px-5 py-4 shadow-sm ${
+                    className={`max-w-[min(100%,_36rem)] rounded-[18px] px-5 py-4 shadow-sm line-clamp-6 ${
                       message.sender === "guide"
                         ? "bg-primary/10 text-foreground"
                         : "self-end bg-secondary text-secondary-foreground"
@@ -135,15 +137,14 @@ const Assessment = () => {
               ))}
 
               {isTyping && (
-                <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <div className="flex h-10 w-16 items-center justify-center rounded-full bg-primary/10">
-                    <div className="flex gap-1">
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-primary" />
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-primary [animation-delay:0.1s]" />
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-primary [animation-delay:0.2s]" />
-                    </div>
+                <div className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-primary)]/15 text-[var(--color-primary)]">
+                    <BookOpen className="h-4 w-4" aria-hidden="true" />
                   </div>
-                  Thinking…
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-3 w-3/5 rounded-full" />
+                    <Skeleton className="h-3 w-1/3 rounded-full" />
+                  </div>
                 </div>
               )}
             </div>
@@ -165,7 +166,7 @@ const Assessment = () => {
                     value={input}
                     onChange={(event) => setInput(event.target.value)}
                     placeholder="Type up to 4–5 sentences. You can pause and resume anytime."
-                    className={`min-h-[140px] resize-none ${readingMode ? "text-base leading-8" : "text-sm"}`}
+                    className={`min-h-[160px] resize-none ${readingMode ? "text-base leading-8" : "text-sm"}`}
                   />
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <p className="text-xs text-muted-foreground">Plain language is welcome. Bullet points work too.</p>
@@ -192,11 +193,16 @@ const Assessment = () => {
             </div>
           </section>
 
-          <aside className="space-y-4">
-            <Card className="border-border/80">
-              <CardHeader className="space-y-1">
-                <CardTitle className="text-base">Session card</CardTitle>
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">{role.replace(/-/g, " ")}</p>
+          <aside className="space-y-5">
+            <Card className="border-[color:var(--color-border)]">
+              <CardHeader className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base">Session card</CardTitle>
+                  <Badge variant="outline" className="rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.3em]">
+                    {role.replace(/-/g, " ")}
+                  </Badge>
+                </div>
+                <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Not medical advice</p>
               </CardHeader>
               <CardContent className="space-y-5">
                 <div className="space-y-2">
