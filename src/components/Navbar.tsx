@@ -34,9 +34,13 @@ const Navbar = () => {
     { label: "Privacy", href: "/privacy" },
   ];
 
-  const themeOptions: ReadonlyArray<{ label: string; value: ThemeName }> = [
-    { label: "Calm teal", value: "calm" },
-    { label: "Midnight sand", value: "midnight" },
+  const themeOptions: ReadonlyArray<{
+    icon: string;
+    value: ThemeName;
+    ariaLabel: string;
+  }> = [
+    { icon: "☀️", value: "calm", ariaLabel: "Tema claro" },
+    { icon: "🌙", value: "midnight", ariaLabel: "Tema escuro" },
   ];
 
   useEffect(() => {
@@ -78,13 +82,21 @@ const Navbar = () => {
           <div className="hidden items-center gap-4 md:flex">
             <div className="flex items-center gap-2">
               <Select value={theme} onValueChange={(value) => setTheme(value as ThemeName)}>
-                <SelectTrigger className="w-[160px] rounded-[12px] border-[color:var(--color-border)] bg-[color:var(--color-card)] text-sm focus-ring">
-                  <SelectValue aria-label="Select visual theme" placeholder="Theme" />
+                <SelectTrigger className="w-[96px] rounded-[12px] border-[color:var(--color-border)] bg-[color:var(--color-card)] text-xs focus-ring">
+                  <SelectValue aria-label="Selecionar tema visual" placeholder="☀️ / 🌙" />
                 </SelectTrigger>
                 <SelectContent align="end" sideOffset={8} className="rounded-[12px] border-[color:var(--color-border)] bg-[color:var(--color-card)] shadow-[var(--shadow-card)]">
                   {themeOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value} className="rounded-[10px] text-sm">
-                      {option.label}
+                    <SelectItem
+                      key={option.value}
+                      value={option.value}
+                      aria-label={option.ariaLabel}
+                      className="rounded-[10px]"
+                    >
+                      <span aria-hidden className="block text-xs leading-none">
+                        {option.icon}
+                      </span>
+                      <span className="sr-only">{option.ariaLabel}</span>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -96,6 +108,8 @@ const Navbar = () => {
                 checked={dyslexiaEnabled}
                 onCheckedChange={setDyslexiaEnabled}
                 aria-label="Toggle dyslexia-friendly font"
+                className="h-8 w-14"
+                thumbClassName="h-6 w-6 data-[state=checked]:translate-x-7 data-[state=unchecked]:translate-x-1"
               />
               <label htmlFor="dyslexia-toggle" className="text-xs font-medium text-muted-foreground">
                 Dyslexia-friendly
@@ -156,13 +170,21 @@ const Navbar = () => {
                 <div className="space-y-2">
                   <p className="text-sm font-semibold text-[color:var(--color-ink)]">Visual theme</p>
                   <Select value={theme} onValueChange={(value) => setTheme(value as ThemeName)}>
-                    <SelectTrigger className="rounded-[12px] border-[color:var(--color-border)] bg-[color:var(--color-card)] focus-ring">
-                      <SelectValue aria-label="Select visual theme" placeholder="Theme" />
+                    <SelectTrigger className="rounded-[12px] border-[color:var(--color-border)] bg-[color:var(--color-card)] text-xs focus-ring">
+                      <SelectValue aria-label="Selecionar tema visual" placeholder="☀️ / 🌙" />
                     </SelectTrigger>
                     <SelectContent align="end" sideOffset={8} className="rounded-[12px] border-[color:var(--color-border)] bg-[color:var(--color-card)] shadow-[var(--shadow-card)]">
                       {themeOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value} className="rounded-[10px] text-sm">
-                          {option.label}
+                        <SelectItem
+                          key={option.value}
+                          value={option.value}
+                          aria-label={option.ariaLabel}
+                          className="rounded-[10px]"
+                        >
+                          <span aria-hidden className="block text-xs leading-none">
+                            {option.icon}
+                          </span>
+                          <span className="sr-only">{option.ariaLabel}</span>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -173,7 +195,13 @@ const Navbar = () => {
                     <p className="text-sm font-semibold text-[color:var(--color-ink)]">Dyslexia-friendly font</p>
                     <p className="text-xs text-muted-foreground">Switch to Atkinson Hyperlegible</p>
                   </div>
-                  <Switch checked={dyslexiaEnabled} onCheckedChange={setDyslexiaEnabled} aria-label="Toggle dyslexia-friendly font" />
+                  <Switch
+                    checked={dyslexiaEnabled}
+                    onCheckedChange={setDyslexiaEnabled}
+                    aria-label="Toggle dyslexia-friendly font"
+                    className="h-8 w-14"
+                    thumbClassName="h-6 w-6 data-[state=checked]:translate-x-7 data-[state=unchecked]:translate-x-1"
+                  />
                 </div>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
