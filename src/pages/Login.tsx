@@ -15,7 +15,7 @@ type LocationState = {
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation<LocationState>();
-  const redirectPath = location.state?.from ?? "/onboarding";
+  const redirectPath = location.state?.from ?? "/assessment";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -102,7 +102,11 @@ const Login = () => {
                   </div>
                   {error && <p className="text-sm font-medium text-destructive">{error}</p>}
                   <Button type="submit" size="lg" className="w-full">
-                    Continue to onboarding
+                    {redirectPath === "/onboarding"
+                      ? "Continue to onboarding"
+                      : redirectPath === "/assessment"
+                      ? "Continue to assessment"
+                      : "Continue"}
                   </Button>
                 </form>
               </CardContent>

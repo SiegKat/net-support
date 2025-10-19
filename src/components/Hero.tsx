@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck, Eye, Info } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { isAuthenticated } from "@/lib/auth";
 
 const trustChips = [
   { label: "HIPAA-aligned mindset", icon: ShieldCheck },
@@ -9,6 +10,21 @@ const trustChips = [
 ];
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const handleSignIn = () => {
+    navigate("/login");
+  };
+
+  const handleStartAssessment = () => {
+    if (isAuthenticated()) {
+      navigate("/assessment");
+      return;
+    }
+
+    navigate("/login", { state: { from: "/assessment" } });
+  };
+
   return (
     <section className="relative isolate overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(25,154,142,0.22),_transparent_55%),radial-gradient(circle_at_bottom_right,_rgba(59,76,202,0.18),_transparent_60%)]" />
@@ -40,8 +56,22 @@ const Hero = () => {
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Button asChild size="lg" className="text-base">
-              <Link to="/login">Start calm pre-screen</Link>
+            <Button
+              type="button"
+              size="lg"
+              variant="ghost"
+              onClick={handleSignIn}
+              className="rounded-full bg-[#FFE55A] px-7 text-base font-semibold text-[#1F1F1F] shadow-[var(--shadow-card)] hover:bg-[#FFE55A]/90"
+            >
+              Sign In
+            </Button>
+            <Button
+              type="button"
+              size="lg"
+              onClick={handleStartAssessment}
+              className="rounded-full px-8 text-base"
+            >
+              Start Assessment
             </Button>
             <Link
               to="/about"

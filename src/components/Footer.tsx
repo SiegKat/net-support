@@ -37,8 +37,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/login" className="transition-colors duration-150 ease-out hover:text-[var(--color-primary)] focus-ring">
-                  Start pre-screen
+                <Link
+                  to="/assessment"
+                  className="transition-colors duration-150 ease-out hover:text-[var(--color-primary)] focus-ring"
+                >
+                  Start assessment
                 </Link>
               </li>
             </ul>
