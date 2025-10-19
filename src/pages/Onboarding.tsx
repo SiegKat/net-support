@@ -54,6 +54,10 @@ const Onboarding = () => {
 
   const allConsentsChecked = consents.privacy && consents.nonDiagnostic && consents.adult;
 
+  const completionSegments =
+    (selectedRole ? 1 : 0) + (allConsentsChecked ? 1 : 0) + (selectedRole && allConsentsChecked ? 1 : 0);
+  const completionPercent = Math.min(100, Math.round((completionSegments / steps.length) * 100));
+
   const stepMeta = useMemo(() => {
     return steps.map((step, index) => {
       if (index === 0) {
@@ -99,7 +103,14 @@ const Onboarding = () => {
           </header>
 
           <section aria-label="Progress" className="rounded-[16px] border border-border bg-card/80 p-6 shadow-[var(--shadow-card)]">
-            <ol className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <h2 className="text-base font-semibold text-foreground">Progress</h2>
+              <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-muted/50 px-4 py-2 text-sm font-medium text-muted-foreground">
+                <span className="text-xs uppercase tracking-[0.24em] text-muted-foreground/80">Complete</span>
+                <span className="text-lg text-foreground">{completionPercent}%</span>
+              </div>
+            </div>
+            <ol className="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               {stepMeta.map((step, index) => {
                 const isActive = currentIndex === index;
                 const isComplete = step.completed && index !== stepMeta.length - 1;
@@ -129,7 +140,10 @@ const Onboarding = () => {
                       </div>
                     </div>
                     {index < stepMeta.length - 1 && (
-                      <div className="hidden md:block h-0.5 w-full rounded-full bg-muted" aria-hidden="true" />
+                      <div
+                        className="hidden h-0.5 w-full rounded-full bg-muted md:block"
+                        aria-hidden="true"
+                      />
                     )}
                   </li>
                 );

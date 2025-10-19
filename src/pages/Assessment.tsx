@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Clock, ShieldAlert, Volume2 } from "lucide-react";
@@ -120,7 +121,7 @@ const Assessment = () => {
               {messages.map((message) => (
                 <div key={message.id} className="flex flex-col gap-1">
                   <div
-                    className={`max-w-[min(100%,_36rem)] rounded-[18px] px-5 py-4 shadow-sm ${
+                    className={`max-w-[min(100%,_36rem)] rounded-[18px] px-5 py-4 shadow-sm line-clamp-6 ${
                       message.sender === "guide"
                         ? "bg-primary/10 text-foreground"
                         : "self-end bg-secondary text-secondary-foreground"
@@ -135,15 +136,12 @@ const Assessment = () => {
               ))}
 
               {isTyping && (
-                <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <div className="flex h-10 w-16 items-center justify-center rounded-full bg-primary/10">
-                    <div className="flex gap-1">
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-primary" />
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-primary [animation-delay:0.1s]" />
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-primary [animation-delay:0.2s]" />
-                    </div>
+                <div className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <Skeleton className="h-10 w-10 rounded-full bg-primary/10" />
+                  <div className="flex flex-1 flex-col gap-2">
+                    <Skeleton className="h-3 w-3/4 rounded-full bg-muted/80" />
+                    <Skeleton className="h-3 w-2/4 rounded-full bg-muted/80" />
                   </div>
-                  Thinking…
                 </div>
               )}
             </div>

@@ -13,14 +13,17 @@ const proofPoints = [
   },
 ];
 
+const trustChips = ["HIPAA-aligned mindset", "WCAG 2.2 AA", "Not medical advice"];
+
 const Hero = () => {
   return (
-    <section className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(25,154,142,0.18),_transparent_55%),_radial-gradient(circle_at_bottom_right,_rgba(59,76,202,0.22),_transparent_60%)]">
+    <section className="relative isolate overflow-hidden bg-[var(--gradient-hero)]">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-white/70" aria-hidden="true" />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-      <div className="max-w-7xl mx-auto px-6 md:px-8 py-24 lg:py-28">
+      <div className="relative mx-auto max-w-7xl px-6 py-24 md:px-8 lg:py-28">
         <div className="grid gap-16 lg:grid-cols-[minmax(0,_1fr)_minmax(0,_420px)] items-center">
           <div className="space-y-10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-white/70 px-4 py-2 text-sm font-medium text-primary shadow-sm">
               Calm v2 is here
             </div>
 
@@ -38,7 +41,7 @@ const Hero = () => {
               {proofPoints.map((point) => (
                 <span
                   key={point.label}
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-4 py-2 shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/90 px-4 py-2 shadow-sm"
                 >
                   <point.icon className="h-4 w-4 text-primary" aria-hidden="true" />
                   {point.label}
@@ -46,18 +49,28 @@ const Hero = () => {
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg" className="text-base shadow-md focus-visible:ring-offset-2">
+            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              <Button asChild size="lg" className="text-base shadow-[var(--shadow-card)]">
                 <Link to="/onboarding">Start Pre-Screen</Link>
               </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="text-base border-border bg-white/70 hover:bg-white focus-visible:ring-offset-2"
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2"
               >
-                <Link to="/about">For Schools &amp; Clinics</Link>
-              </Button>
+                For Schools &amp; Clinics
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+
+            <div className="flex flex-wrap gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              {trustChips.map((chip) => (
+                <span
+                  key={chip}
+                  className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-white/80 px-3 py-2 text-[0.7rem] text-muted-foreground shadow-sm"
+                >
+                  {chip}
+                </span>
+              ))}
             </div>
           </div>
 
