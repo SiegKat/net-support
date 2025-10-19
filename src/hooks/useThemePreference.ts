@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export type ThemeName = "calm" | "plum" | "midnight";
+export type ThemeName = "calm" | "midnight";
 
 const isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
 
@@ -10,7 +10,7 @@ const readStoredTheme = (): ThemeName => {
   }
 
   const stored = window.localStorage.getItem("net-theme");
-  if (stored === "plum" || stored === "midnight") {
+  if (stored === "midnight") {
     return stored;
   }
 

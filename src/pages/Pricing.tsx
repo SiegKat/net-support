@@ -122,7 +122,7 @@ const Pricing = () => {
                     className="mt-auto w-full"
                     variant={tier.highlighted ? "default" : "outline"}
                   >
-                    <Link to={tier.name === "Enterprise" ? "/contact" : "/onboarding"}>{tier.cta}</Link>
+                    <Link to={tier.name === "Enterprise" ? "/contact" : "/login"}>{tier.cta}</Link>
                   </Button>
                 </CardContent>
               </Card>

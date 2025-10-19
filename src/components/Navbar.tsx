@@ -1,16 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useThemePreference, useDyslexiaPreference } from "@/hooks/useThemePreference";
 import type { ThemeName } from "@/hooks/useThemePreference";
+import { isAuthenticated } from "@/lib/auth";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   const { theme, setTheme } = useThemePreference();
   const { dyslexiaEnabled, setDyslexiaEnabled } = useDyslexiaPreference();
+
+  const handleSignIn = () => {
+    navigate("/login");
+  };
+
+  const handleStartAssessment = () => {
+    if (isAuthenticated()) {
+      navigate("/assessment");
+      return;
+    }
+
+    navigate("/login", { state: { from: "/assessment" } });
+  };
 
   const navLinks = [
     { label: "How It Works", href: "/about" },
@@ -20,7 +35,6 @@ const Navbar = () => {
 
   const themeOptions: ReadonlyArray<{ label: string; value: ThemeName }> = [
     { label: "Calm teal", value: "calm" },
-    { label: "Soft plum", value: "plum" },
     { label: "Midnight sand", value: "midnight" },
   ];
 
@@ -76,8 +90,22 @@ const Navbar = () => {
               Dyslexia-friendly
             </label>
           </div>
-          <Button asChild size="lg" className="shadow-[var(--shadow-card)]">
-            <Link to="/onboarding">Start Pre-Screen</Link>
+          <Button
+            type="button"
+            variant="ghost"
+            size="lg"
+            onClick={handleSignIn}
+            className="rounded-full bg-[#FFE55A] px-6 font-semibold text-[#1F1F1F] shadow-[var(--shadow-card)] hover:bg-[#FFE55A]/90"
+          >
+            Sign In
+          </Button>
+          <Button
+            type="button"
+            size="lg"
+            onClick={handleStartAssessment}
+            className="rounded-full px-7 shadow-[var(--shadow-card)]"
+          >
+            Start Assessment
           </Button>
         </div>
 
@@ -129,10 +157,28 @@ const Navbar = () => {
                 <Switch checked={dyslexiaEnabled} onCheckedChange={setDyslexiaEnabled} aria-label="Toggle dyslexia-friendly font" />
               </div>
             </div>
-            <Button asChild className="w-full" size="lg">
-              <Link to="/onboarding" onClick={() => setIsOpen(false)}>
-                Start Pre-Screen
-              </Link>
+            <Button
+              type="button"
+              variant="ghost"
+              size="lg"
+              className="w-full rounded-full bg-[#FFE55A] font-semibold text-[#1F1F1F] hover:bg-[#FFE55A]/90"
+              onClick={() => {
+                setIsOpen(false);
+                handleSignIn();
+              }}
+            >
+              Sign In
+            </Button>
+            <Button
+              type="button"
+              size="lg"
+              className="w-full rounded-full"
+              onClick={() => {
+                setIsOpen(false);
+                handleStartAssessment();
+              }}
+            >
+              Start Assessment
             </Button>
           </div>
         </div>
