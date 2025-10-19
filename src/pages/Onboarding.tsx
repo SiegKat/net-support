@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
-import { Users, GraduationCap, User, Stethoscope, Check, ArrowRight } from "lucide-react";
+import { Users, GraduationCap, User, Stethoscope, Check, ArrowRight, BarChart3 } from "lucide-react";
 import { toast } from "sonner";
+import { Progress } from "@/components/ui/progress";
 
 const roles = [
   {
@@ -68,6 +69,14 @@ const Onboarding = () => {
 
   const activeIndex = stepMeta.findIndex((step) => !step.completed);
   const currentIndex = activeIndex === -1 ? stepMeta.length - 1 : activeIndex;
+  const completionPercent = Math.min(
+    100,
+    Math.round(
+      (((selectedRole ? 1 : 0) + (allConsentsChecked ? 1 : 0) + (selectedRole && allConsentsChecked ? 1 : 0)) /
+        steps.length) *
+        100,
+    ),
+  );
 
   const handleContinue = () => {
     if (!selectedRole) {
@@ -88,39 +97,52 @@ const Onboarding = () => {
       <Navbar />
 
       <main className="flex-1 py-16">
-        <div className="max-w-4xl mx-auto px-6 md:px-8 space-y-12">
-          <header className="space-y-4">
-            <p className="text-sm font-medium uppercase tracking-[0.18em] text-muted-foreground">Onboarding</p>
-            <h1 className="text-4xl font-semibold text-foreground">First, let us tailor the pre-screen to you.</h1>
-            <p className="max-w-2xl text-lg text-muted-foreground">
-              These quick steps help us set the right tone, language, and resources. You can pause anytime and nothing is saved
-              unless you choose.
+        <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 md:px-8">
+          <header className="space-y-5 text-balance">
+            <p className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border)] bg-[color:var(--color-card)]/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+              Onboarding
+            </p>
+            <h1 className="text-4xl font-semibold text-[color:var(--color-ink)] md:text-5xl">
+              First, let us tailor the pre-screen to you.
+            </h1>
+            <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              These quick steps help us set the right tone, language, and resources. You can pause anytime and nothing is saved unless you choose.
             </p>
           </header>
 
-          <section aria-label="Progress" className="rounded-[16px] border border-border bg-card/80 p-6 shadow-[var(--shadow-card)]">
-            <ol className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <section aria-label="Progress" className="rounded-[20px] border border-[color:var(--color-border)] bg-[color:var(--color-card)]/90 p-6 shadow-[var(--shadow-card)]">
+            <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-center gap-3 text-sm font-medium text-muted-foreground">
+                <BarChart3 className="h-5 w-5 text-[var(--color-primary)]" aria-hidden="true" />
+                {completionPercent}% complete
+              </div>
+              <Progress value={completionPercent} className="h-2" />
+            </div>
+            <ol className="grid gap-4 md:grid-cols-3">
               {stepMeta.map((step, index) => {
                 const isActive = currentIndex === index;
                 const isComplete = step.completed && index !== stepMeta.length - 1;
 
                 return (
-                  <li key={step.id} className="flex flex-col gap-2 md:flex-1">
+                  <li
+                    key={step.id}
+                    className="rounded-[16px] border border-[color:var(--color-border)] bg-[color:var(--color-bg)]/70 p-4"
+                    aria-current={isActive ? "step" : undefined}
+                  >
                     <div className="flex items-center gap-3">
                       <span
-                        className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors ${
+                        className={`flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors ${
                           isComplete
-                            ? "border-primary bg-primary text-primary-foreground"
+                            ? "border-[var(--color-primary)] bg-[var(--color-primary)] text-white"
                             : isActive
-                            ? "border-accent text-accent"
-                            : "border-border text-muted-foreground"
+                            ? "border-[var(--color-accent)] text-[var(--color-accent)]"
+                            : "border-[color:var(--color-border)] text-muted-foreground"
                         }`}
-                        aria-current={isActive ? "step" : undefined}
                       >
                         {isComplete ? <Check className="h-5 w-5" aria-hidden="true" /> : index + 1}
                       </span>
                       <div className="space-y-1">
-                        <p className="text-sm font-semibold text-foreground">{step.label}</p>
+                        <p className="text-sm font-semibold text-[color:var(--color-ink)]">{step.label}</p>
                         <p className="text-xs text-muted-foreground">
                           {index === 0 && "Pick who is completing this session."}
                           {index === 1 && "Review the privacy guardrails in plain language."}
@@ -128,9 +150,6 @@ const Onboarding = () => {
                         </p>
                       </div>
                     </div>
-                    {index < stepMeta.length - 1 && (
-                      <div className="hidden md:block h-0.5 w-full rounded-full bg-muted" aria-hidden="true" />
-                    )}
                   </li>
                 );
               })}
@@ -151,12 +170,17 @@ const Onboarding = () => {
                     <button
                       key={role.id}
                       onClick={() => setSelectedRole(role.id)}
-                      className={`flex h-full flex-col items-start gap-4 rounded-[12px] border-2 p-5 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 ${
-                        isSelected ? "border-primary bg-primary/10 shadow-[var(--shadow-card)]" : "border-border hover:border-primary/50"
+                      className={`flex h-full flex-col items-start gap-4 rounded-[16px] border-2 p-5 text-left transition-all focus-ring ${
+                        isSelected
+                          ? "border-[var(--color-primary)] bg-[var(--color-primary)]/10 shadow-[var(--shadow-card)]"
+                          : "border-[color:var(--color-border)] bg-[color:var(--color-card)] hover:border-[var(--color-primary)]/50"
                       }`}
                       aria-pressed={isSelected}
                     >
-                      <role.icon className={`h-7 w-7 ${isSelected ? "text-primary" : "text-muted-foreground"}`} aria-hidden="true" />
+                      <role.icon
+                        className={`h-7 w-7 ${isSelected ? "text-[var(--color-primary)]" : "text-muted-foreground"}`}
+                        aria-hidden="true"
+                      />
                       <div className="space-y-2">
                         <p className="text-lg font-semibold text-foreground">{role.title}</p>
                         <p className="text-sm text-muted-foreground leading-relaxed">{role.description}</p>
@@ -212,7 +236,7 @@ const Onboarding = () => {
                   </li>
                 </ul>
 
-                <div className="flex items-center justify-between gap-6 rounded-[12px] border border-dashed border-primary/40 bg-primary/5 px-4 py-3 text-sm text-foreground">
+                <div className="flex flex-col gap-3 rounded-[16px] border border-dashed border-[var(--color-primary)]/40 bg-[var(--color-primary)]/8 px-4 py-4 text-sm text-[color:var(--color-ink)] md:flex-row md:items-center md:justify-between">
                   <div>
                     <p className="font-medium">Session retention</p>
                     <p className="text-muted-foreground">
@@ -228,10 +252,10 @@ const Onboarding = () => {
               </CardContent>
             </Card>
 
-            <div className="flex flex-col items-start justify-between gap-6 rounded-[16px] border border-border bg-card p-6 shadow-[var(--shadow-card)] md:flex-row md:items-center">
+            <div className="flex flex-col items-start justify-between gap-6 rounded-[20px] border border-[color:var(--color-border)] bg-[color:var(--color-card)] p-6 shadow-[var(--shadow-card)] md:flex-row md:items-center">
               <div className="space-y-2">
-                <p className="text-sm font-semibold text-muted-foreground">Ready when you are</p>
-                <p className="text-lg text-foreground">The pre-screen takes about 15 minutes, and you can pause anytime.</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground">Ready when you are</p>
+                <p className="text-lg text-[color:var(--color-ink)]">The pre-screen takes about 15 minutes, and you can pause anytime.</p>
               </div>
               <Button size="lg" className="min-w-[200px]" onClick={handleContinue}>
                 Start calm session

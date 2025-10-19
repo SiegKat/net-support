@@ -26,32 +26,34 @@ const roles = [
 
 const Features = () => {
   return (
-    <section className="py-20 bg-gradient-subtle">
-      <div className="container px-4">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-            Built for Everyone in the Learning Journey
+    <section className="py-24">
+      <div className="mx-auto max-w-7xl rounded-[28px] border border-[color:var(--color-border)] bg-[var(--gradient-subtle)] px-6 py-16 shadow-[var(--shadow-card)] md:px-8">
+        <div className="mx-auto mb-14 max-w-3xl text-center text-balance">
+          <h2 className="text-3xl font-semibold text-[color:var(--color-ink)] md:text-4xl">
+            Built for everyone in the learning journey
           </h2>
-          <p className="text-lg text-muted-foreground">
-            Whether you're a parent, educator, adult learner, or clinician—N.E.T. provides 
-            role-specific insights and actionable next steps.
+          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+            Whether you're a parent, educator, adult learner, or clinician—N.E.T. provides role-specific insights and calm, actionable next steps.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {roles.map((role, index) => (
-            <Card 
-              key={index}
-              className="border-border hover:shadow-medium transition-all duration-300 hover:-translate-y-1"
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {roles.map((role) => (
+            <Card
+              key={role.title}
+              className="group h-full border-transparent bg-[color:var(--color-card)]/90 transition-all duration-200 ease-out hover:-translate-y-1 hover:border-[color:var(--color-primary)]/40 hover:shadow-[var(--shadow-elevated)]"
             >
-              <CardContent className="p-6 space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <role.icon className="h-6 w-6 text-primary" />
+              <CardContent className="flex h-full flex-col gap-5 p-6">
+                <div className="w-12 h-12 rounded-2xl bg-[var(--color-primary)]/12 flex items-center justify-center text-[var(--color-primary)]">
+                  <role.icon className="h-6 w-6" />
                 </div>
-                <h3 className="font-semibold text-lg text-card-foreground">{role.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {role.description}
-                </p>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-[color:var(--color-ink)]">{role.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{role.description}</p>
+                </div>
+                <span className="mt-auto inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground group-hover:text-[var(--color-primary)]">
+                  Tailored view
+                </span>
               </CardContent>
             </Card>
           ))}

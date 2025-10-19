@@ -74,90 +74,80 @@ const Pricing = () => {
       <Navbar />
       
       <main className="flex-1 py-16">
-        <div className="container px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-              Choose Your Plan
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Start with our free tier or unlock advanced features and unlimited access
+        <div className="mx-auto flex max-w-6xl flex-col gap-16 px-6 md:px-8">
+          <div className="text-center text-balance">
+            <h1 className="text-4xl font-semibold text-[color:var(--color-ink)] md:text-5xl">Choose your plan</h1>
+            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+              Start with our free tier or unlock advanced features and unlimited access.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            {tiers.map((tier, index) => (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {tiers.map((tier) => (
               <Card
-                key={index}
-                className={`relative ${
-                  tier.highlighted
-                    ? "border-primary shadow-strong scale-105"
-                    : "border-border"
+                key={tier.name}
+              className={`relative h-full border-[color:var(--color-border)] transition-transform duration-200 ease-out hover:-translate-y-1 ${
+                  tier.highlighted ? "border-[var(--color-primary)]/60 shadow-[var(--shadow-elevated)]" : "shadow-[var(--shadow-card)]"
                 }`}
               >
                 {tier.highlighted && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-primary text-primary-foreground text-sm font-semibold rounded-full">
-                    Most Popular
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full border border-[var(--color-primary)] bg-[var(--color-primary)] text-xs font-semibold uppercase tracking-[0.24em] text-white px-5 py-1">
+                    Most popular
                   </div>
                 )}
-                
+
                 <CardHeader className="space-y-4 pb-6">
-                  <div>
-                    <CardTitle className="text-2xl">{tier.name}</CardTitle>
-                    <CardDescription className="mt-2">{tier.description}</CardDescription>
+                  <div className="space-y-2">
+                    <CardTitle className="text-2xl text-[color:var(--color-ink)]">{tier.name}</CardTitle>
+                    <CardDescription>{tier.description}</CardDescription>
                   </div>
-                  <div>
-                    <span className="text-4xl font-bold text-foreground">{tier.price}</span>
-                    {tier.period && (
-                      <span className="text-muted-foreground">{tier.period}</span>
-                    )}
+                  <div className="flex items-baseline gap-2 text-[color:var(--color-ink)]">
+                    <span className="text-4xl font-semibold">{tier.price}</span>
+                    {tier.period && <span className="text-sm text-muted-foreground">{tier.period}</span>}
                   </div>
                 </CardHeader>
-                
-                <CardContent className="space-y-6">
-                  <ul className="space-y-3">
-                    {tier.features.map((feature, fIndex) => (
-                      <li key={fIndex} className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-card-foreground">{feature}</span>
+
+                <CardContent className="flex h-full flex-col gap-6">
+                  <ul className="space-y-3 text-sm text-muted-foreground">
+                    {tier.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2">
+                        <Check className="mt-0.5 h-4 w-4 text-[var(--color-primary)]" aria-hidden="true" />
+                        {feature}
                       </li>
                     ))}
                   </ul>
-                  
+
                   <Button
                     asChild
-                    className="w-full"
+                    className="mt-auto w-full"
                     variant={tier.highlighted ? "default" : "outline"}
                   >
-                    <Link to={tier.name === "Enterprise" ? "/contact" : "/onboarding"}>
-                      {tier.cta}
-                    </Link>
+                    <Link to={tier.name === "Enterprise" ? "/contact" : "/onboarding"}>{tier.cta}</Link>
                   </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
 
-          <div className="mt-16 max-w-3xl mx-auto">
-            <Card className="bg-muted/50">
+          <div className="mx-auto max-w-3xl">
+            <Card className="border-[color:var(--color-border)] bg-[color:var(--color-bg)]/70">
               <CardContent className="p-8">
-                <h3 className="text-xl font-semibold mb-4 text-center text-foreground">
-                  All Plans Include
-                </h3>
-                <div className="grid md:grid-cols-2 gap-4 text-sm text-muted-foreground">
+                <h3 className="text-xl font-semibold text-[color:var(--color-ink)] mb-4 text-center">All plans include</h3>
+                <div className="grid gap-4 text-sm text-muted-foreground md:grid-cols-2">
                   <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-primary" />
+                    <Check className="h-4 w-4 text-[var(--color-primary)]" />
                     <span>HIPAA-aligned privacy</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-primary" />
-                    <span>WCAG 2.1 AA accessibility</span>
+                    <Check className="h-4 w-4 text-[var(--color-primary)]" />
+                    <span>WCAG 2.2 AA accessibility</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-primary" />
+                    <Check className="h-4 w-4 text-[var(--color-primary)]" />
                     <span>Mobile-optimized interface</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-primary" />
+                    <Check className="h-4 w-4 text-[var(--color-primary)]" />
                     <span>Regular updates & improvements</span>
                   </div>
                 </div>
