@@ -82,7 +82,7 @@ const Pricing = () => {
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
             {tiers.map((tier) => (
               <Card
                 key={tier.name}
@@ -90,7 +90,7 @@ const Pricing = () => {
                   borderColor: tier.highlighted ? 'var(--color-primary)' : 'var(--color-border)',
                   backgroundColor: 'var(--color-card)'
                 }}
-                className={`relative h-full transition-all duration-[var(--dur-med)] ease-[var(--ease)] hover:-translate-y-1 ${
+                className={`relative flex flex-col transition-all duration-[var(--dur-med)] ease-[var(--ease)] hover:-translate-y-1 ${
                   tier.highlighted ? "shadow-[var(--shadow-elevated)]" : "shadow-[var(--shadow-card)]"
                 }`}
               >
@@ -118,8 +118,8 @@ const Pricing = () => {
                   </div>
                 </CardHeader>
 
-                <CardContent className="flex h-full flex-col gap-6">
-                  <ul className="space-y-3 text-sm text-muted-foreground">
+                <CardContent className="flex flex-col gap-6 flex-1">
+                  <ul className="space-y-3 text-sm text-muted-foreground flex-1">
                     {tier.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-2">
                         <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: 'var(--color-primary)' }} aria-hidden="true" />
@@ -130,7 +130,7 @@ const Pricing = () => {
 
                   <Button
                     asChild
-                    className="mt-auto w-full"
+                    className="w-full"
                     variant={tier.highlighted ? "default" : "outline"}
                   >
                     <Link to={tier.name === "Enterprise" ? "/contact" : "/login"}>{tier.cta}</Link>
