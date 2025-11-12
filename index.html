@@ -32,8 +32,8 @@
           var theme = storedTheme === "midnight" ? storedTheme : "calm";
           document.documentElement.dataset.theme = theme;
 
-          var dyslexia = window.localStorage.getItem("dyslexia-mode");
-          if (dyslexia === "true") {
+          var dyslexia = window.localStorage.getItem("net-dyslexia");
+          if (dyslexia === "on") {
             document.documentElement.dataset.dyslexia = "true";
           }
         } catch (error) {
