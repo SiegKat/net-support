@@ -23,6 +23,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -51,21 +52,42 @@ const Login = () => {
       return;
     }
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    if (isSignUp) {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/assessment`,
+        },
+      });
 
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-      return;
+      if (error) {
+        setError(error.message);
+        setLoading(false);
+        return;
+      }
+
+      toast({
+        title: "Account created!",
+        description: "Welcome to N.E.T. Pre-Screen.",
+      });
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        setError(error.message);
+        setLoading(false);
+        return;
+      }
+
+      toast({
+        title: "Welcome back!",
+        description: "You've successfully signed in.",
+      });
     }
-
-    toast({
-      title: "Welcome back!",
-      description: "You've successfully signed in.",
-    });
   };
 
   const handleGoogleSignIn = async () => {
@@ -98,9 +120,14 @@ const Login = () => {
               Secure login
             </p>
             <div className="space-y-4">
-              <h1 className="text-4xl font-semibold text-[color:var(--color-ink)] md:text-5xl">Welcome back.</h1>
+              <h1 className="text-4xl font-semibold text-[color:var(--color-ink)] md:text-5xl">
+                {isSignUp ? "Get started." : "Welcome back."}
+              </h1>
               <p className="text-lg leading-relaxed text-muted-foreground">
-                Log in to continue the calm, guided pre-screen. We use email sign-in so you stay in control of your data and can return any time.
+                {isSignUp 
+                  ? "Create an account to begin the calm, guided pre-screen. We use email sign-in so you stay in control of your data."
+                  : "Log in to continue the calm, guided pre-screen. We use email sign-in so you stay in control of your data and can return any time."
+                }
               </p>
             </div>
             <div className="rounded-[20px] border border-[color:var(--color-border)] bg-[color:var(--color-card)]/80 p-5 text-sm leading-relaxed text-muted-foreground shadow-[var(--shadow-card)]">
@@ -114,8 +141,13 @@ const Login = () => {
           <div className="w-full max-w-md">
             <Card className="border-border/80 shadow-[var(--shadow-card)]">
               <CardHeader className="space-y-2 text-center">
-                <CardTitle>Sign in to N.E.T.</CardTitle>
-                <CardDescription>Use the email you started your pre-screen with to pick up where you left off.</CardDescription>
+                <CardTitle>{isSignUp ? "Create your N.E.T. account" : "Sign in to N.E.T."}</CardTitle>
+                <CardDescription>
+                  {isSignUp 
+                    ? "Start your journey with a secure account."
+                    : "Use the email you started your pre-screen with to pick up where you left off."
+                  }
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -136,25 +168,32 @@ const Login = () => {
                     <Input
                       id="password"
                       type="password"
-                      autoComplete="current-password"
+                      autoComplete={isSignUp ? "new-password" : "current-password"}
                       value={password}
                       onChange={(event) => setPassword(event.target.value)}
                       required
                     />
                   </div>
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <span>We only keep you signed in on this browser.</span>
-                    <button type="button" className="font-medium text-[var(--color-primary)] hover:underline focus-ring">
-                      Forgot password?
-                    </button>
-                  </div>
+                  {!isSignUp && (
+                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <span>We only keep you signed in on this browser.</span>
+                      <button type="button" className="font-medium text-[var(--color-primary)] hover:underline focus-ring">
+                        Forgot password?
+                      </button>
+                    </div>
+                  )}
                   {error && <p className="text-sm font-medium text-destructive">{error}</p>}
                   <Button type="submit" size="lg" className="w-full" disabled={loading}>
-                    {loading ? "Signing in..." : redirectPath === "/onboarding"
-                      ? "Continue to onboarding"
-                      : redirectPath === "/assessment"
-                      ? "Continue to assessment"
-                      : "Continue"}
+                    {loading 
+                      ? (isSignUp ? "Creating account..." : "Signing in...") 
+                      : isSignUp 
+                        ? "Create account" 
+                        : redirectPath === "/onboarding"
+                          ? "Continue to onboarding"
+                          : redirectPath === "/assessment"
+                          ? "Continue to assessment"
+                          : "Continue"
+                    }
                   </Button>
                   
                   <div className="relative">
@@ -192,13 +231,22 @@ const Login = () => {
                         fill="#EA4335"
                       />
                     </svg>
-                    {loading ? "Signing in..." : "Sign in with Google"}
+                    {loading ? (isSignUp ? "Creating account..." : "Signing in...") : `Sign ${isSignUp ? "up" : "in"} with Google`}
                   </Button>
                 </form>
               </CardContent>
               <CardFooter className="flex flex-col gap-3 text-center text-sm text-muted-foreground">
                 <p>
-                  New here? <span className="font-medium text-[color:var(--color-ink)]">Create an account during onboarding.</span>
+                  {isSignUp ? "Already have an account?" : "New here?"}{" "}
+                  <button 
+                    onClick={() => {
+                      setIsSignUp(!isSignUp);
+                      setError("");
+                    }} 
+                    className="font-medium text-[color:var(--color-ink)] hover:underline focus-ring"
+                  >
+                    {isSignUp ? "Sign in" : "Create an account"}
+                  </button>
                 </p>
                 <p className="text-xs">
                   Having trouble? Email <a className="text-[var(--color-primary)] underline-offset-4 hover:underline" href="mailto:support@net-prescreen.com">support@net-prescreen.com</a>.
