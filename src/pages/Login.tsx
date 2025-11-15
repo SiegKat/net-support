@@ -57,7 +57,7 @@ const Login = () => {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/chatbot`,
+          emailRedirectTo: `${window.location.origin}/onboarding`,
         },
       });
 
@@ -99,7 +99,7 @@ const Login = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/chatbot`,
+        redirectTo: `${window.location.origin}/onboarding`,
       },
     });
 
