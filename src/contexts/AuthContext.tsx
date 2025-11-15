@@ -63,18 +63,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       }
       
-      // If we're on a remote URL (like Amplify) but have a session, redirect to chatbot
+      // If we're on a remote URL (like Amplify) but have a session, redirect to onboarding
       if (window.location.hostname.includes('amplifyapp.com') || 
           window.location.hostname.includes('amazonaws.com')) {
         supabase.auth.getSession().then(({ data: { session } }) => {
           if (session) {
-            // Redirect to localhost or your actual domain
-            const targetUrl = window.location.protocol + '//' + window.location.hostname.replace(/.*amplifyapp\.com.*/, 'localhost:8080') + '/chatbot';
-            if (targetUrl.includes('localhost')) {
-              window.location.href = 'http://localhost:8080/chatbot';
-            } else {
-              navigate("/chatbot", { replace: true });
-            }
+            // Redirect to onboarding using current domain
+            navigate("/onboarding", { replace: true });
           }
         });
       }
